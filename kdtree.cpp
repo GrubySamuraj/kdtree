@@ -216,3 +216,41 @@ void KdTree::findNearest(const Node *node, const std::vector<int> &target, int d
         findNearest(second, target, depth + 1, bestNode, bestDistance);
     }
 }
+
+void KdTree::input()
+{
+    std::cout << "Enter points one by one. Each point should have " << dimensions
+              << " dimensions. Enter an empty line to stop.\n";
+
+    std::vector<std::vector<int>> points;
+    std::string line;
+
+    while (true)
+    {
+        std::cout << "Enter point (e.g., 1 2 3): ";
+        std::getline(std::cin, line);
+
+        if (line.empty())
+            break;
+
+        std::istringstream iss(line);
+        std::vector<int> point;
+        int value;
+
+        while (iss >> value)
+        {
+            point.push_back(value);
+        }
+
+        if (point.size() != dimensions)
+        {
+            std::cout << "Invalid input. Point must have " << dimensions << " dimensions.\n";
+            continue;
+        }
+
+        points.push_back(point);
+    }
+
+    create(points);
+    std::cout << "Points successfully added to the KD-Tree.\n";
+}

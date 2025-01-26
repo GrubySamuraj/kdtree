@@ -18,6 +18,7 @@ public:
     void insert(const std::vector<int> &point);
     std::vector<int> findNearest(const std::vector<int> &point) const;
     void printTree() const;
+    void input();
 
 private:
     struct Node

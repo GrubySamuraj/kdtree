@@ -1,31 +1,54 @@
 #include "kdtree.hpp"
 #include <iostream>
+#include <sstream>
+#include <vector>
 
 int main()
 {
-    KdTree tree(2);
+    size_t dimensions = 2;
+    KdTree tree(dimensions);
 
-    std::vector<std::vector<int>> points = {
-        {2, 3},
-        {5, 4},
-        {9, 6},
-        {4, 7},
-        {8, 1},
-        {7, 2}};
+    tree.input();
 
-    tree.create(points);
+    std::cout << "Enter the target point (" << dimensions << " dimensions): ";
+    std::string line;
+    std::getline(std::cin, line);
 
-    std::vector<int> target = {6, 5};
+    std::istringstream iss(line);
+    std::vector<int> target;
+    int value;
+
+    while (iss >> value)
+    {
+        target.push_back(value);
+    }
+
+    if (target.size() != dimensions)
+    {
+        std::cerr << "Invalid input. Target point must have " << dimensions << " dimensions.\n";
+        return 1;
+    }
+
     std::vector<int> nearest = tree.findNearest(target);
 
-    std::cout << "Nearest point to {6, 5}: {";
+    tree.printTree();
+
+    std::cout << "Nearest point to {";
+    for (size_t i = 0; i < target.size(); ++i)
+    {
+        std::cout << target[i];
+        if (i < target.size() - 1)
+            std::cout << ", ";
+    }
+    std::cout << "} is {";
+
     for (size_t i = 0; i < nearest.size(); ++i)
     {
         std::cout << nearest[i];
         if (i < nearest.size() - 1)
             std::cout << ", ";
     }
-    std::cout << "}" << std::endl;
+    std::cout << "}\n";
 
     return 0;
 }
